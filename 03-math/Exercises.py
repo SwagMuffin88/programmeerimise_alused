@@ -1,13 +1,12 @@
 import math
 
+
 # Task 1
 def sum_and_difference(num_a: int, num_b: int) -> tuple:
     """Return the sum and difference of given variables num_a and num_b."""
     # Write your code here
-
     intSum = num_a + num_b
     difference = num_a - num_b
-
     return intSum, difference
 
 # Task 2
@@ -44,14 +43,14 @@ def find_average(num_a: int, num_b: int) -> float:
 def area_of_a_circle(radius: float) -> float:
     """Calculate and return the area of a circle."""
     # Write your code here
-    circle_area = round(2 * math.pi * radius, 2)
+    circle_area = round(math.pi * radius ** 2, 2)
     return circle_area
 
 # Task 7
 def area_of_an_equilateral_triangle(side_length: float) -> int:
     """Calculate and return the area of an equilateral triangle."""
     # Write your code here
-    triangle_area = round((math.sqrt(3)/4) * side_length ** 2)
+    triangle_area = round((math.sqrt(3) / 4) * side_length ** 2)
     return round(triangle_area)
 
 # Task 8
