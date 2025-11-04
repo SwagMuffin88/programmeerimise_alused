@@ -1,1 +1,1 @@
-TARge24 Programmeerimise alused
+TARge25 Programmeerimise alused
