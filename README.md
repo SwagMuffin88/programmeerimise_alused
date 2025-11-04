@@ -1,1 +1,2 @@
-TARge25 Programmeerimise alused
+TARge25 Programmeerimise alused <br>
+Autor: Katri Lotamõis
