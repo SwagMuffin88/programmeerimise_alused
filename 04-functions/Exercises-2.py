@@ -1,27 +1,33 @@
 """Function examples."""
 
 
-# func()
 def func():
+    # func()
+    """Print statement when function is called."""
     print("I´m inside the function")
 
-# my_name_is(name)
+
 def my_name_is(name: str):
+    # my_name_is(name)
+    """Format a name as string from argument and print to console in a sentence."""
     print("My name is {name}".format(name=name))
 
 
-# sum_six(num)`
 def sum_six(num: int):
+    # sum_six(num)
+    """Print sum of int argument and 6."""
     return num + 6
 
 
-# sum_numbers()
 def sum_numbers(a: int, b: int):
+    # sum_numbers()
+    """Print sum of two input integers."""
     return a + b
 
 
-# usd_to_eur()
 def usd_to_eur(usd: int):
+    # usd_to_eur()
+    """Convert input value in USD to EUR."""
     return usd * 0.8
 
 
