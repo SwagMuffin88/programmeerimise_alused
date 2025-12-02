@@ -18,7 +18,22 @@ def show_banner():
 
     print(banner(slogan_input) * int(num_of_repeats))
 
+# Party budget exercise
+def eelarve(num_of_guests: int):
+    return 10 * num_of_guests + 55
+
+def calculate_min_and_max_budget():
+    num_of_invited_guests = input("Mitu inimest on peole kutsutud? ")
+    num_of_guests_coming = input("Mitu inimest tuleb? ")
+
+    max_budget = eelarve(int(num_of_invited_guests))
+    min_budget = eelarve(int(num_of_guests_coming))
+
+    print(f"Maksimaalne eelarve on {max_budget} eurot")
+    print(f"Minimaalne eelarve on {min_budget} eurot")
+
 if __name__ == '__main__':
-    show_banner()
+        # show_banner()
+    calculate_min_and_max_budget()
 
 
