@@ -20,9 +20,14 @@ def show_banner():
 
 # Party budget exercise
 def eelarve(num_of_guests: int):
+    """
+    Calculate expected budget based on number of guests.
+    The input is multiplied by the expense per guest and added to the room rent price.
+    """
     return 10 * num_of_guests + 55
 
 def calculate_min_and_max_budget():
+    """Calculate max and min expected party budget based on user input."""
     num_of_invited_guests = input("Mitu inimest on peole kutsutud? ")
     num_of_guests_coming = input("Mitu inimest tuleb? ")
 
