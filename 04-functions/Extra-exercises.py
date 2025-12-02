@@ -3,15 +3,15 @@
 
 # Electricity bill exercise
 def convert_price_from_cent_to_eur(price_s_kw: float) -> float:
-    """
-    Convert electricity price from s/kWh to €/MWh.
-    """
+    """Convert electricity price from s/kWh to €/MWh."""
     #price_in_eur = price_s_kw / 100 -> can be simplified
     return price_s_kw * 10
+
 
 def elektrihind():
     """
     Convert price from user input and display result.
+
     User is asked to enter electricity price in s/kWh and the price is then converted to €/MWh.
     """
     price_s_kw = float(input("Sisesta elektrihind sentides kilovatt-tunni kohta: "))
@@ -29,6 +29,7 @@ def banner(slogan: str):
 def show_banner():
     """
     Print slogan based on user input.
+
     User is asked to input the slogan and nr of times it should be repeated. The method for returning
     slogan as uppercase is then called and the returned result is printed to console the input nr of times.
     """
@@ -37,16 +38,20 @@ def show_banner():
 
     print(banner(slogan_input) * int(num_of_repeats))
 
+
 # Party budget exercise
 def eelarve(num_of_guests: int):
     """
     Calculate expected budget based on number of guests.
+
     The input is multiplied by the expense per guest and added to the room rent price.
     """
     return 10 * num_of_guests + 55
 
+
 def calculate_min_and_max_budget():
     """Calculate max and min expected party budget based on user input."""
+
     num_of_invited_guests = input("Mitu inimest on peole kutsutud? ")
     num_of_guests_coming = input("Mitu inimest tuleb? ")
 
@@ -55,6 +60,32 @@ def calculate_min_and_max_budget():
 
     print(f"Maksimaalne eelarve on {max_budget} eurot")
     print(f"Minimaalne eelarve on {min_budget} eurot")
+
+
+# Coin counting exercise
+def pronksikarva_summa(all_coins: list[int]):
+    """Count all values that equal 1, 2 or 5."""
+
+    bronze_sum = 0
+
+    for c in all_coins:
+        if c <= 5:
+            bronze_sum =+ c
+        else: continue
+
+    return bronze_sum
+
+
+def count_values_from_document():
+    with open(
+        input("Enter file name for your coin collection: ")
+    ) as f:
+        for line in f:
+            print(line)
+        # coins_from_file = ## add lines from file
+        # pronksikarva_summa(coins_from_file)
+
+    f.close()
 
 if __name__ == '__main__':
     elektrihind()
