@@ -1,6 +1,25 @@
 """Extra function exercises"""
 
 
+# Electricity bill exercise
+def convert_price_from_cent_to_eur(price_s_kw: float) -> float:
+    """
+    Convert electricity price from s/kWh to €/MWh.
+    """
+    #price_in_eur = price_s_kw / 100 -> can be simplified
+    return price_s_kw * 10
+
+def elektrihind():
+    """
+    Convert price from user input and display result.
+    User is asked to enter electricity price in s/kWh and the price is then converted to €/MWh.
+    """
+    price_s_kw = float(input("Sisesta elektrihind sentides kilovatt-tunni kohta: "))
+    price_m_mw = convert_price_from_cent_to_eur(price_s_kw)
+
+    print(f"{price_s_kw} s/kWh on {price_m_mw} €/MWh")
+
+
 # Banner exercise
 def banner(slogan: str):
     """Return uppercase version of entered string value."""
@@ -38,7 +57,5 @@ def calculate_min_and_max_budget():
     print(f"Minimaalne eelarve on {min_budget} eurot")
 
 if __name__ == '__main__':
-        # show_banner()
-    calculate_min_and_max_budget()
-
+    elektrihind()
 
