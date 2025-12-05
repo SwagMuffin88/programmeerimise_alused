@@ -63,30 +63,35 @@ def calculate_min_and_max_budget():
 
 
 # Coin counting exercise
-def pronksikarva_summa(all_coins: list[int]):
+def count_bronze_coins(all_coins: list[int]):
     """Count all values that equal 1, 2 or 5."""
 
     bronze_sum = 0
 
     for c in all_coins:
         if c <= 5:
-            bronze_sum =+ c
-        else: continue
+            bronze_sum += c
 
     return bronze_sum
 
 
 def count_values_from_document():
-    with open(
-        input("Enter file name for your coin collection: ")
-    ) as f:
-        for line in f:
-            print(line)
-        # coins_from_file = ## add lines from file
-        # pronksikarva_summa(coins_from_file)
+    coins_from_file = []    # Initiate empty list for coins
 
-    f.close()
+    with open(
+        input("Enter file name for your coin collection: ")     # Ask user input for .txt file
+    ) as file:
+        for line in file:
+            numbers = [int(i) for i in line.strip().split()]
+            coins_from_file.extend(numbers)     # Add int values from .txt file to list
+
+    bronze_coins_sum = count_bronze_coins(coins_from_file)   # Iterate over list and count all values <= 5
+    print(bronze_coins_sum)
+
+    file.close()
+
 
 if __name__ == '__main__':
-    elektrihind()
+    count_values_from_document()
+
 
