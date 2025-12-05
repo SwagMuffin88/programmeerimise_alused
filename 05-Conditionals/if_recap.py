@@ -1,7 +1,5 @@
 from datetime import datetime
 
-from Tools.demo.spreadsheet import cellname
-
 
 def plan_activity():
     date_string = input("Enter a date (m/d/y): ")
