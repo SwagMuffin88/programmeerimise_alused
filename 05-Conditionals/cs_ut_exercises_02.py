@@ -1,5 +1,5 @@
-import math
 """Exercises from https://courses.cs.ut.ee/t/pythonkoolis/Main/SisendYl"""
+import math
 
 
 # Ex. 1
@@ -204,7 +204,6 @@ def convert_temperatures():
                   % (kelvin, fahrenheit))
 
 
-
 # Ex. 6
 def calculate_discriminant(a: float, b: float, c: float) -> float:
     return b ** 2 - 4 * a * c
@@ -254,8 +253,11 @@ def verify_user_input_and_calculate_discriminant():
         print(f"Lahendeid on kaks: {solution_1} ja {solution_2}")
 
 
+# Ex. 7
+## ...
 
 if __name__ == '__main__':
     # calculate_rectangle_circumference_and_area()
     # greet_by_age()
     display_barks_n_times()
+
