@@ -67,8 +67,8 @@ def calculate(a: float, b: float, operator: str) -> float | None:
         return None
 
 
-def take_user_input_and_calculate_result():
-    """Ask and verify user input and call method to perform required calculation."""
+def verify_user_input() -> tuple[int, int, str]:
+    """Ask for user input and return tuple of two numbers and an operator symbol if valid."""
 
     a = input("Please enter first number: ")
     while not a.isnumeric():
@@ -83,20 +83,43 @@ def take_user_input_and_calculate_result():
     a = int(a)
     b = int(b)
     operator = input("Please enter operator symbol: ")
+    return a, b, operator
+
+
+def take_user_input_and_calculate_result():
+    """Ask and verify user input and perform required calculation."""
+
+    a, b, operator = verify_user_input()
     result = calculate_and_return_string(a, b, operator)
 
     print(result)
 
 
 # Ex. 4
-def calculate_frequency(a: int, b: int, operator: str) -> int:
-    pass
+def calculate_frequency(a: float, b: float, operator: str) -> float | None:
+    """Calculate frequency of barks based on user input."""
+
+    result = calculate(a, b, operator)
+
+    if result is None:
+        return None
+    else:
+        return result
+
 
 def display_barks_n_times():
-    frequency = calculate_frequency()
+    """Ask and verify two numbers and operator from user and perform calculation for displaying barks"""
+
+    a, b, operator = verify_user_input()
+    frequency = calculate_frequency(a, b, operator)
+
+    if frequency is None:
+        frequency = 0
+
+    print(("auh" + " ") * int(frequency))
 
 
 if __name__ == '__main__':
     # calculate_rectangle_circumference_and_area()
     # greet_by_age()
-    take_user_input_and_calculate_result()
+    # display_barks_n_times()
