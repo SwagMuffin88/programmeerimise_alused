@@ -66,7 +66,7 @@ def is_correct_answer(answer: int, problem: str) -> bool:
     return answer == correct_answer
 
 def test_user_math_skills():
-    # Ask for number range, create 10 random addition problems and check every answer.
+    """Ask for number range, create 10 random addition problems and check every answer from user input."""
 
     print("This is a math test. You will see 10 addition problems.")
     print("Please enter a range for problem range: ")
@@ -84,7 +84,6 @@ def test_user_math_skills():
         is_correct = is_correct_answer(user_answer, math_problem)
         incorrect_count = 0
 
-
         if is_correct:
             print("That is correct!")
         else:
@@ -95,5 +94,22 @@ def test_user_math_skills():
     print("You have completed the mini math test.")
     print(f"Your score is: {score}/10")
 
+# Ex. 4
+def create_random_and_compare_to_user():
+    print("Guess a number between 1 and 20.")
+    number = randint(1, 20)
+
+    while True:
+        user_number = int(input("Try to guess it: "))
+        if user_number < number:
+            print("That is a bit small. Try again.")
+        elif user_number > number:
+            print("That is a bit too much. Try again.")
+        else:
+            print("That's right!")
+            break
+
+
 if __name__ == '__main__':
-    test_user_math_skills()
+    #test_user_math_skills()
+    create_random_and_compare_to_user()
