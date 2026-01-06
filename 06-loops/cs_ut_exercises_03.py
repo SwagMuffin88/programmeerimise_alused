@@ -1,5 +1,5 @@
 """https://courses.cs.ut.ee/t/pythonkoolis/Main/TsykkelYl"""
-
+from random import randint
 
 # Ex. 1
 def greet_user():
@@ -45,9 +45,55 @@ def add_numbers_keystroke_ver():
 
     print(total)
 
+# Ex.3
+def create_addition_problem(min_value, max_value):
+    # Create addition problems with random integers.
+
+    a = randint(min_value, max_value)
+    b = randint(min_value, max_value)
+    return f"{a} + {b}"
+
+def calculate_correct_answer(problem:str) -> int:
+    parts = problem.split() # Also includes operator, so it is possible to widen scope to other operations
+    numbers = [int(part) for part in parts if part.isdigit()]
+
+    a = int(numbers[0])
+    b = int(numbers[1])
+    return a + b
+
+def is_correct_answer(answer: int, problem: str) -> bool:
+    correct_answer = calculate_correct_answer(problem)
+    return answer == correct_answer
+
+def test_user_math_skills():
+    # Ask for number range, create 10 random addition problems and check every answer.
+
+    print("This is a math test. You will see 10 addition problems.")
+    print("Please enter a range for problem range: ")
+    min = int(input("Min value: "))
+    max = int(input("Max value: "))
+    incorrect_count = 0
+
+    print("Here are your math problems: ")
+
+    for i in range(9):
+        math_problem = create_addition_problem(min, max)
+        print(math_problem)
+
+        user_answer = int(input("Enter your answer: "))
+        is_correct = is_correct_answer(user_answer, math_problem)
+        incorrect_count = 0
+
+
+        if is_correct:
+            print("That is correct!")
+        else:
+            incorrect_count += 1
+            print("That is unfortunately not correct.")
+
+    score = 10 - incorrect_count
+    print("You have completed the mini math test.")
+    print(f"Your score is: {score}/10")
 
 if __name__ == '__main__':
-    #greet_user()
-    # add_ten_numbers_from_user_and_add_all()
-    # add_numbers_while_loop_ver()
-    add_numbers_keystroke_ver()
+    test_user_math_skills()
