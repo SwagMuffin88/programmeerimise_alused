@@ -76,7 +76,7 @@ def test_user_math_skills():
 
     print("Here are your math problems: ")
 
-    for i in range(9):
+    for i in range(10):
         math_problem = create_addition_problem(min, max)
         print(math_problem)
 
@@ -98,17 +98,25 @@ def test_user_math_skills():
 def create_random_and_compare_to_user():
     print("Guess a number between 1 and 20.")
     number = randint(1, 20)
+    try_count = 0
 
-    while True:
+    #while True:
+    # for i in range(5):
+    while try_count < 5:
+        try_count += 1
         user_number = int(input("Try to guess it: "))
+
         if user_number < number:
-            print("That is a bit small. Try again.")
+            print("That is a bit small.")
         elif user_number > number:
-            print("That is a bit too much. Try again.")
-        else:
+            print("That is a bit too much.")
+        elif user_number == number:
             print("That's right!")
             break
+    else:
+        print(f"The correct number was {number}.")
 
+    print(f"Your test has ended. You tried {try_count} times.")
 
 if __name__ == '__main__':
     #test_user_math_skills()
