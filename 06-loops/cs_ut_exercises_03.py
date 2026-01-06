@@ -133,7 +133,18 @@ def print_table_of_number_combinations():
     print(f"Generated {count} total combinations.")
 
 
+def print_grid(size:int, alt: str, symbol: str):
+    for col in range(size):
+        for row in range(size):
+            if row == col or row + col == size - 1:
+                print(f"{alt}", end=" ")
+            else:
+                print(f"{symbol}", end=" ")
+        print()
+
+
 if __name__ == '__main__':
     #test_user_math_skills()
     #create_random_and_compare_to_user()
-    print_table_of_number_combinations()
+    #print_table_of_number_combinations()
+    print_grid(6, "x", "o")
