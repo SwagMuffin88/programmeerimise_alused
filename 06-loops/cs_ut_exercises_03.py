@@ -94,7 +94,7 @@ def test_user_math_skills():
     print("You have completed the mini math test.")
     print(f"Your score is: {score}/10")
 
-# Ex. 4
+# Ex. 4 + 5
 def create_random_and_compare_to_user():
     print("Guess a number between 1 and 20.")
     number = randint(1, 20)
@@ -118,6 +118,22 @@ def create_random_and_compare_to_user():
 
     print(f"Your test has ended. You tried {try_count} times.")
 
+
+# Ex. 6
+def print_table_of_number_combinations():
+    """Print every possible combination of numbers in layout x - y - z where each number is 1 to 20."""
+
+    count = 0
+    for z in range(1, 21):
+        for y in range(1, 21):
+            for x in range(1, 21):
+                count += 1
+                print(f"{z} - {y} - {x}")
+
+    print(f"Generated {count} total combinations.")
+
+
 if __name__ == '__main__':
     #test_user_math_skills()
-    create_random_and_compare_to_user()
+    #create_random_and_compare_to_user()
+    print_table_of_number_combinations()
