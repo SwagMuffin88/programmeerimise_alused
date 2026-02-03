@@ -1,5 +1,8 @@
 """https://courses.cs.ut.ee/t/pythonkoolis/Main/TsykkelYl"""
+from datetime import timedelta
 from random import randint
+import datetime
+
 
 # Ex. 1
 def greet_user():
@@ -143,8 +146,147 @@ def print_grid(size:int, alt: str, symbol: str):
         print()
 
 
+# Ex 8
+def convert_time(time: timedelta) -> str:
+    if time < datetime.timedelta(hours=1):
+        time_minutes = round(time.total_seconds() / 60, 0)
+        return f"Your travelling time is {time_minutes} min."
+    else:
+        time_hours = round(time.total_seconds() / 3600, 2)
+        return f"Your travelling time is {time_hours} h."
+
+
+def calculate_time_difference(old_time: int | timedelta, time: timedelta) -> str:
+    difference = old_time - time
+
+    if old_time < time:
+        return f"Your new speed added extra {abs(round(difference.total_seconds() / 60, 0))} minutes."
+    elif time < old_time:
+        return f"Your new speed saved you {round(difference.total_seconds() / 60, 0)} minutes."
+    else:
+        return f"There was no difference in time."
+
+
+def calculate_speed_difference():
+    """Calculate the time it takes to travel through given distance at different speeds and compare the differences."""
+
+    # Kui v = L / t, siis t = L / v
+    # distance = userinput(enter your distance) -> muutumatu
+    # speed = userinput(enter your speed) -> muutuv
+    # loop while input is not empty string
+    # output for incorrect input (permit only numeral values)
+
+    distance = float(input("Please enter your distance in km: "))
+    speed = input("Please enter your speed in km/h: ")
+    old_time = -1
+
+    while speed != "":
+        if speed.isnumeric():
+            time = datetime.timedelta(hours=distance / float(speed))
+
+            time_converted_result = convert_time(time)
+            print(time_converted_result)
+
+            if old_time != -1:
+                difference_result = calculate_time_difference(old_time, time)
+                print(difference_result)
+
+            speed = input("Please enter a new speed in km/h: ")
+            old_time = time
+        else:
+            print("Please enter a numeric value for your speed.")
+            speed = input("Please enter your speed in km/h: ")
+
+
+# Ex. 9
+
+DICE_ART = {
+        1: (
+            "┌─────────┐",
+            "│         │",
+            "│    ●    │",
+            "│         │",
+            "└─────────┘",
+        ),
+        2: (
+            "┌─────────┐",
+            "│  ●      │",
+            "│         │",
+            "│      ●  │",
+            "└─────────┘",
+        ),
+        3: (
+            "┌─────────┐",
+            "│  ●      │",
+            "│    ●    │",
+            "│      ●  │",
+            "└─────────┘",
+        ),
+        4: (
+            "┌─────────┐",
+            "│  ●   ●  │",
+            "│         │",
+            "│  ●   ●  │",
+            "└─────────┘",
+        ),
+        5: (
+            "┌─────────┐",
+            "│  ●   ●  │",
+            "│    ●    │",
+            "│  ●   ●  │",
+            "└─────────┘",
+        ),
+        6: (
+            "┌─────────┐",
+            "│  ●   ●  │",
+            "│  ●   ●  │",
+            "│  ●   ●  │",
+            "└─────────┘",
+        ),
+    }
+
+def throw_dice():
+    dice_counter = 0
+    die_height = len(DICE_ART[1])
+    die_face_separator = " "
+
+    while dice_counter < 3:
+        dice_value = randint(1, 6)
+        dice_faces = [DICE_ART[dice_value]]
+
+        dice_faces_rows = []
+        for row in range(die_height):
+            row_components = []
+            for die in dice_faces:
+                row_components.append(die[row])
+            row_string = die_face_separator.join(row_components)
+            dice_faces_rows.append(row_string)
+
+        dice_faces_diagram = "\n".join(dice_faces_rows)
+        print(dice_faces_diagram)
+        dice_counter += 1
+
+
+def play_dice_as_user():
+    check = ""
+    while check != "n":
+        name = input("Enter your name: ")
+        print(f"The current player is {name}")
+        throws = int(input("Please enter the number of throws you wish to have (1-3):"))
+        count = 0
+
+        while count < throws:
+            print(f"Round {count + 1}")
+            throw_dice()
+            count += 1
+
+        print(f"{name}'s round is up!")
+        check = input("Would anyone else like to play? (y/n): ").lower()
+
 if __name__ == '__main__':
     #test_user_math_skills()
     #create_random_and_compare_to_user()
     #print_table_of_number_combinations()
-    print_grid(6, "x", "o")
+    #print_grid(6, "x", "o")
+    #calculate_speed_difference()
+    play_dice_as_user()
