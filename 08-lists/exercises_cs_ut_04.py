@@ -30,8 +30,6 @@ def generate_magic_ball_answer():
             break
 
 
-
-
 if __name__ == '__main__':
     #translate_numbers()
     generate_magic_ball_answer()
