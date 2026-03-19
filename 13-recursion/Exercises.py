@@ -73,6 +73,10 @@ def recursive_sum(n: int) -> int:
     return n + recursive_sum(n - 1)
 
 
+# Change max nr of str digits in int conversion for a recursive method.
+sys.set_int_max_str_digits(5000)
+
+
 def sum_digits_recursive(number: int, sum_ = 0) -> int:
     """
     Return the sum of the digits in number.
