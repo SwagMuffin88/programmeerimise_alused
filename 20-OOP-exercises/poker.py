@@ -1,5 +1,5 @@
 """Simple Poker implementation."""
-from unittest import suite
+from collections import Counter
 
 
 class Card:
@@ -29,8 +29,6 @@ class Hand:
 
     def __init__(self):
         """Initialize Hand."""
-        self.suits = []
-        self.values = []
         self.cards: list[Card] = []
 
     def can_add_card(self, card: Card) -> bool:
@@ -63,18 +61,13 @@ class Hand:
         if self.can_add_card(card):
             self.cards.append(card)
 
-        return cards
-
     def can_remove_card(self, card: Card) -> bool:
         """
         Check if a card can be removed from hand.
 
         The only consideration should be that the card is already being held.
         """
-        if card in cards:
-            return True
-
-        return False
+        return card in self.cards
 
     def remove_card(self, card: Card):
         """
@@ -83,7 +76,7 @@ class Hand:
         Before removing the card, you would have to check if it can be removed.
         """
         if self.can_remove_card(card):
-            cards.remove(card)
+            self.cards.remove(card)
 
     def get_cards(self):
         """Return a list of cards as objects."""
@@ -106,16 +99,13 @@ class Hand:
         if len(self.cards) != 5:
             return False
 
-        # Teisendame kaartide tekstilised väärtused
         card_indices = []
         for card in self.cards:
-            i = self.values.index()
+            i = self.values.index(card.value)
             card_indices.append(i)
 
-        # Sorteerime kaardid indeksi järgi kasvavalt
         card_indices.sort()
 
-        # Kas iga järgmine kaart on täpselt ühe võrra suurem eelmisest
         for i in range(len(card_indices) - 1):
             if card_indices[i] + 1 != card_indices[i + 1]:
                 return False
@@ -128,7 +118,16 @@ class Hand:
 
         In a flush hand all cards are the same suit. Their number value is not important here.
         """
-        raise NotImplementedError
+        if len(self.cards) != 5:
+            return False
+
+        first_card_suit = self.cards[0].suit
+
+        for card in self.cards:
+            if card.suit != first_card_suit:
+                return False
+
+        return True
 
     def is_straight_flush(self):
         """
@@ -137,7 +136,7 @@ class Hand:
         Such a hand is both straight and flush at the same time.
 
         """
-        raise NotImplementedError
+        return self.is_straight() and self.is_flush()
 
     def is_full_house(self):
         """
@@ -148,7 +147,14 @@ class Hand:
         2 2 2 6 6
         K J K J K
         """
-        raise NotImplementedError
+        if len(self.cards) != 5:
+            return False
+
+        values = [card.value for card in self.cards]
+        counts = Counter(values).values()
+
+        # Kontrollime, kas esinemissagedused on 2 ja 3
+        return sorted(counts) == [2, 3]
 
     def is_four_of_a_kind(self):
         """
@@ -159,7 +165,14 @@ class Hand:
         9 4 4 4 4
 
         """
-        raise NotImplementedError
+        if len(self.cards) != 5:
+            return False
+
+        values = [card.value for card in self.cards]
+        counts = Counter(values).values()
+
+        # Kontrollime, kas esinemissagedused on 1 ja 4
+        return sorted(counts) == [1, 4]
 
     def is_three_of_a_kind(self):
         """
@@ -170,7 +183,14 @@ class Hand:
         5 5 1 5 2
 
         """
-        raise NotImplementedError
+        if len(self.cards) != 5:
+            return False
+
+        values = [card.value for card in self.cards]
+        counts = Counter(values).values()
+
+        # Kontrollime, kas esinemissagedus on [1, 1, 3]
+        return sorted(counts) == [1, 1, 3]
 
     def is_pair(self):
         """
@@ -181,7 +201,14 @@ class Hand:
         8 7 6 6 5
 
         """
-        raise NotImplementedError
+        if len(self.cards) != 5:
+            return False
+
+        values = [card.value for card in self.cards]
+        counts = Counter(values).values()
+
+        # Kontrollime, kas esinemissagedus on [1, 1, 1, 2]
+        return sorted(counts) == [1, 1, 1, 2]
 
     def get_hand_type(self):
         """
@@ -199,7 +226,24 @@ class Hand:
         "high card" - None of the above
 
         """
-        raise NotImplementedError
+        if len(self.cards) != 5:
+            return None
+        elif self.is_straight_flush():
+            return "straight flush"
+        elif self.is_flush():
+            return "flush"
+        elif self.is_straight():
+            return "straight"
+        elif self.is_full_house():
+            return "full house"
+        elif self.is_four_of_a_kind():
+            return "four of a kind"
+        elif self.is_three_of_a_kind():
+            return "three of a kind"
+        elif self.is_pair():
+            return "pair"
+        else:
+            return "high card"
 
     def __repr__(self):
         """
@@ -215,23 +259,38 @@ class Hand:
 
         Order of the cards is not important.
         """
-        raise NotImplementedError
+        type = self.get_hand_type()
+        cards_string = ", ".join([str(card) for card in self.cards])
+
+        if type is None:
+            return f"I'm holding {cards_string}"
+        else:
+            return f"I got a {type} with cards: {cards_string}"
 
 
 if __name__ == "__main__":
     hand = Hand()
     cards = [Card("2", "diamonds"), Card("4", "spades"), Card("5", "clubs"), Card("3", "diamonds"), Card("6", "hearts")]
-    [hand.add_card(card) for card in cards]
+
+    for card in cards:
+        hand.add_card(card)
+
     assert hand.get_hand_type() == "straight"
 
     hand = Hand()
     cards = [Card("10", "diamonds"), Card("2", "diamonds"), Card("A", "diamonds"), Card("6", "diamonds"),
              Card("9", "diamonds")]
-    [hand.add_card(card) for card in cards]
+
+    for card in cards:
+        hand.add_card(card)
+
     assert hand.get_hand_type() == "flush"
 
     hand = Hand()
     cards = [Card("A", "hearts"), Card("A", "clubs"), Card("A", "spades"), Card("A", "diamonds"),
              Card("9", "diamonds")]
-    [hand.add_card(card) for card in cards]
+
+    for card in cards:
+        hand.add_card(card)
+
     assert hand.get_hand_type() == "four of a kind"
