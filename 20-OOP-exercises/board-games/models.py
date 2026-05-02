@@ -2,10 +2,10 @@
 
 
 class GameSession:
-    def __init__(self, game_name: str, player_names: list, result_type: str, results: list):
+    def __init__(self, game_name: str, players: list, result_type: str, results: list):
         """Game session constructor."""
         self.game_name = game_name
-        self.player_names = player_names
+        self.players = players
         self.result_type = result_type
         self.results = results
 
@@ -13,23 +13,41 @@ class GameSession:
         """Get the winner of the current session."""
         if self.result_type == "winner":
             return self.results[0]
+
         if self.result_type == "places":
             return self.results[0]
+
         if self.result_type == "points":
-            int_results = [int(p) for p in self.results]
-            max_idx = int_results.index(max(int_results))
-            return self.player_names[max_idx]
+            point_list = [int(p) for p in self.results]
+            max_points = max(point_list)
+            winner_index = point_list.index(max_points)
+            return self.players[winner_index]
+
         return ""
 
     def get_loser(self) -> str:
         """Get the loser of the current session (only points and places)."""
         if self.result_type == "places":
             return self.results[-1]
+
         if self.result_type == "points":
-            int_results = [int(p) for p in self.results]
-            min_idx = int_results.index(min(int_results))
-            return self.player_names[min_idx]
+            point_list = [int(p) for p in self.results]
+            min_points = min(point_list)
+            loser_index = point_list.index(min_points)
+            return self.players[loser_index]
+
         return ""
+
+    def get_points_for_player(self, player_name: str) -> int:
+        """Return the number of points of a player in the current session."""
+        if self.result_type == "points" and player_name in self.players:
+            player_index = self.players.index(player_name)
+            return int(self.results[player_index])
+        return 0
+
+    def is_player_in_session(self, player_name: str) -> bool:
+        """Check if a player is in the current session."""
+        return player_name in self.players
 
 
 class Player:
