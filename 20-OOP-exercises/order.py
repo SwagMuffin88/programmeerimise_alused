@@ -31,16 +31,14 @@ class OrderItem:
 class Order:
     """Combination of order items of one customer."""
 
-    def __init__(self, order_items: list = None):
+    def __init__(self, order_items: list):
         """
         Order constructor.
 
         :param order_items: list of order items.
         """
-        if order_items is None:
-            self.order_items = []
-        else:
-            self.order_items = list(order_items)
+        self.destination = ""
+        self.order_items = order_items
 
     @property
     def total_quantity(self) -> int:
@@ -64,19 +62,34 @@ class Order:
 class Container:
     """Container to transport orders."""
 
-    def __init__(self, volume: int):
+    def __init__(self, volume: int, orders = None):
         """Container constructor."""
         self.volume = volume
-        self.orders = []
+        self.orders = orders if orders is not None else []
 
-    def current_volume(self) -> int:
-        """Calculate the current occupied volume in the container."""
-        return sum(item.total_volume for item in self.orders)
+    def add_order(self, order):
+        """Add an order to a container."""
+        self.orders.append(order)
+    #
+    # def add_item(self, item):
+    #     """Add an item to a container."""
+    #     self.orders.append(item)
+
+    # def current_volume(self) -> int:
+    #     """Calculate the current volume of a container."""
+    #     total = 0
+    #     for obj in self.orders:
+    #         if hasattr(obj, 'total_volume'):
+    #             total += obj.total_volume
+    #         elif hasattr(obj, 'quantity') and hasattr(obj, 'one_item_volume'):
+    #             total += obj.quantity * obj.one_item_volume
+    #     return total
 
     @property
     def volume_left(self) -> int:
-        """Calculate and return the volume left in a container."""
-        return self.volume - self.current_volume()
+        """Calculate the volume left in a container."""
+        current_occupied_volume = sum(obj.total_volume for obj in self.orders)
+        return self.volume - current_occupied_volume
 
 
 class OrderAggregator:
@@ -108,7 +121,24 @@ class OrderAggregator:
         :return: Order.
         """
         items = []
-        # collect items to the order here
+        current_quantity = 0
+        current_volume = 0
+        remaining = []
+
+        for item in self.order_items:
+            if item.customer != customer:
+                remaining.append(item)
+                continue
+
+            if current_quantity + item.quantity <= max_items_quantity and current_volume + item.total_volume <= max_volume:
+                items.append(item)
+                current_quantity += item.quantity
+                current_volume += item.total_volume
+            else:
+                remaining.append(item)
+
+        self.order_items = remaining
+
         return Order(items)
 
 
@@ -121,7 +151,8 @@ class ContainerAggregator:
 
         :param container_volume: Volume of each container created by this aggregator.
         """
-        pass
+        self.container_volume = container_volume
+        self.not_used_orders = []
 
     def prepare_containers(self, orders: tuple) -> dict:
         """
@@ -132,7 +163,38 @@ class ContainerAggregator:
         :param orders: tuple of orders.
         :return: dict where keys are destinations and values are containers to that destination with orders.
         """
-        return {}
+        # self.not_used_orders = []
+        result = {}
+
+        for order in orders:
+
+            placed = False
+
+            if order.total_volume > self.container_volume:
+                self.not_used_orders.append(order)
+                continue
+
+            destination = order.destination
+
+            if destination == "":
+                self.not_used_orders.append(order)
+                continue
+
+            if destination not in result:
+                result[destination] = [Container(self.container_volume)]
+
+            for container in result[destination]:
+                if container.volume_left >= order.total_volume:
+                    container.add_order(order)
+                    placed = True
+                    break
+
+            if not placed:
+                new_container = Container(self.container_volume)
+                new_container.add_order(order)
+                result[destination].append(new_container)
+
+        return result
 
 
 if __name__ == '__main__':
