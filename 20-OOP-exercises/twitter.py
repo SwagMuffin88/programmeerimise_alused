@@ -31,7 +31,7 @@ def find_fastest_growing(tweets: list) -> Tweet:
     :param tweets: Input list of tweets.
     :return: Fastest growing tweet.
     """
-    pass
+    return sorted(tweets, key=lambda tweet: tweet.retweets / tweet.time, reverse=True)[0]
 
 
 def sort_by_popularity(tweets: list) -> list:
@@ -48,7 +48,7 @@ def sort_by_popularity(tweets: list) -> list:
     :param tweets: Input list of tweets.
     :return: List of tweets by popularity
     """
-    pass
+    return sorted(tweets, key=lambda tweet: (tweet.retweets, -tweet.time), reverse=True)
 
 
 def filter_by_hashtag(tweets: list, hashtag: str) -> list:
@@ -61,7 +61,13 @@ def filter_by_hashtag(tweets: list, hashtag: str) -> list:
     :param hashtag: Hashtag to filter by.
     :return: Filtered list of tweets.
     """
-    pass
+    filtered_tweets = []
+
+    for tweet in tweets:
+        if hashtag in tweet.content:
+            filtered_tweets.append(tweet)
+
+    return filtered_tweets
 
 
 def sort_hashtags_by_popularity(tweets: list) -> list:
@@ -78,7 +84,24 @@ def sort_hashtags_by_popularity(tweets: list) -> list:
     :param tweets: Input list of tweets.
     :return: List of hashtags by popularity.
     """
-    pass
+    hashtag_popularity = {}
+
+    for tweet in tweets:
+        words = set(tweet.content.split())
+        hashtags = [word for word in words if word.startswith("#")]
+
+        # Leiame tweeti sisust kõik hashtagid (sõnad, mis algavad '#'-ga)
+        for hashtag in hashtags:
+            if hashtag not in hashtag_popularity:
+                hashtag_popularity[hashtag] = 0
+            hashtag_popularity[hashtag] += tweet.retweets
+
+    # Sorteerime võtmete (hashtagi nimed) põhjal:
+    #   Esiteks populaarsuse järgi laskuvalt (-item[1])
+    #   Teiseks nime järgi tõusvalt
+    sorted_popular_hashtags = sorted(hashtag_popularity.items(), key=lambda item: (-item[1], item[0]))
+
+    return [hashtag for hashtag, popularity in sorted_popular_hashtags]
 
 
 if __name__ == '__main__':
